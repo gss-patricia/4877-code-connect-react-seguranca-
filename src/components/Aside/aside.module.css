@@ -1,0 +1,44 @@
+.aside {
+  border-radius: 8px;
+  background: #171d1f;
+  padding: 40px 16px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #2d3436;
+}
+
+.profileLink {
+  display: block;
+  padding: 0.75rem 1rem;
+  color: #81898f;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.profileLink:hover {
+  background: #2d3436;
+  color: var(--azul-medio);
+  transform: translateX(4px);
+}
+
+.lastUpdate {
+  margin-top: auto;
+  padding-top: 24px;
+  border-top: 1px solid #2d3436;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: #81898f;
+  text-align: center;
+}

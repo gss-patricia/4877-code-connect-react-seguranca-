@@ -1,0 +1,42 @@
+.bioContainer {
+  background: var(--cinza-escuro);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--cinza);
+  margin: 1.5rem 0;
+  position: relative;
+}
+
+.bioTitle {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  color: var(--branco);
+}
+
+.bioContent {
+  color: var(--cinza-claro);
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+
+.bioContent p {
+  margin-bottom: 0.5rem;
+}
+
+.bioContent a {
+  color: var(--azul);
+  text-decoration: underline;
+}
+
+.warningBadge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: #ff4444;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+

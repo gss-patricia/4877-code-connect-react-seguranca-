@@ -1,0 +1,100 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--branco);
+}
+
+.warning {
+  background: #ff4444;
+  color: white;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  border: 2px solid #cc0000;
+}
+
+.form {
+  background: var(--cinza-escuro);
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid var(--cinza);
+}
+
+.formGroup {
+  margin-bottom: 1.5rem;
+}
+
+.formGroup label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--branco);
+  font-weight: 600;
+}
+
+.textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--cinza);
+  background: var(--fundo);
+  color: var(--branco);
+  font-family: monospace;
+  font-size: 14px;
+  resize: vertical;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: var(--azul);
+}
+
+.hint {
+  display: block;
+  margin-top: 0.5rem;
+  color: var(--cinza-claro);
+  font-size: 0.875rem;
+}
+
+.hint code {
+  background: var(--fundo);
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  font-family: monospace;
+  color: #ff6b6b;
+}
+
+.message {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  background: var(--azul-escuro);
+  color: var(--branco);
+}
+
+.button {
+  background: var(--azul);
+  color: var(--branco);
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.button:hover:not(:disabled) {
+  background: var(--azul-hover);
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+

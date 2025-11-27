@@ -1,0 +1,91 @@
+.deleteButton {
+  background: #ff4444;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.deleteButton:hover {
+  background: #cc0000;
+}
+
+.confirmContainer {
+  background: var(--cinza-escuro);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 2px solid #ff4444;
+  position: relative;
+}
+
+.confirmText {
+  margin: 0 0 1rem 0;
+  color: var(--branco);
+  font-weight: 600;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.confirmButton {
+  flex: 1;
+  background: #ff4444;
+  color: white;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.confirmButton:hover:not(:disabled) {
+  background: #cc0000;
+}
+
+.confirmButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.cancelButton {
+  flex: 1;
+  background: var(--cinza);
+  color: var(--branco);
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.cancelButton:hover:not(:disabled) {
+  background: var(--cinza-claro);
+}
+
+.cancelButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.warningBadge {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: #ff4444;
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.625rem;
+  font-weight: 600;
+}
+
