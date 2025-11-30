@@ -18,7 +18,8 @@ export class DatabaseService {
           *,
           author:User(*),
           comments:Comment(*)
-        `
+        `,
+          { count: "exact" }
         )
         .order("id", { ascending: false })
         .range(skip, skip + perPage - 1);
