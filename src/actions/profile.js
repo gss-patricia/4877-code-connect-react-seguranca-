@@ -3,6 +3,7 @@
 import { createClient } from "../utils/supabase/server";
 import { database } from "../lib/database";
 import { revalidatePath } from "next/cache";
+import { sanitizeHTML } from "@/lib/sanitizer";
 
 export async function updateUserBio(formData) {
   try {
@@ -20,10 +21,11 @@ export async function updateUserBio(formData) {
     const username = user.email.split("@")[0];
     const dbUser = await database.getUserByUsername(username);
 
-    const bio = formData.get("bio");
+    const rawBio = formData.get("bio");
+    const cleanBio = sanitizeHTML(rawBio, "rich")
 
     // Atualizar bio
-    await database.updateUserBio(dbUser.id, bio);
+    await database.updateUserBio(dbUser.id, cleanBio);
 
     revalidatePath("/profile");
     revalidatePath("/");
