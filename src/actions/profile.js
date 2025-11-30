@@ -4,15 +4,6 @@ import { createClient } from "../utils/supabase/server";
 import { database } from "../lib/database";
 import { revalidatePath } from "next/cache";
 
-/**
- * ⚠️ VULNERÁVEL A XSS
- * 
- * Esta action aceita qualquer HTML sem sanitização.
- * Durante o curso (Módulo 1 - XSS), vamos adicionar:
- * - Sanitização com DOMPurify
- * - Validação de input
- * - CSP headers
- */
 export async function updateUserBio(formData) {
   try {
     const supabase = await createClient();
@@ -29,7 +20,6 @@ export async function updateUserBio(formData) {
     const username = user.email.split("@")[0];
     const dbUser = await database.getUserByUsername(username);
 
-    // ⚠️ VULNERÁVEL: Aceita qualquer conteúdo sem sanitização
     const bio = formData.get("bio");
 
     // Atualizar bio
@@ -44,4 +34,3 @@ export async function updateUserBio(formData) {
     return { success: false, error: "Erro ao atualizar bio" };
   }
 }
-

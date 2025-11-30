@@ -47,7 +47,7 @@ export default function EditProfilePage() {
             name="bio"
             value={bio}
             onChange={(e) => setBio(e.target.value)}
-            placeholder="Escreva sua bio... (aceita HTML para demonstração de XSS)"
+            placeholder="Escreva sua bio..."
             rows={8}
             className={styles.textarea}
           />

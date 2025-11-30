@@ -32,7 +32,6 @@ export const Login = () => {
     }));
   };
 
-  // ✅ AUTENTICAÇÃO REAL COM SUPABASE
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -47,7 +46,6 @@ export const Login = () => {
     try {
       console.log("Tentando login:", formData.email);
 
-      // ✅ Usar autenticação real do Supabase
       const result = await signIn(formData.email, formData.password);
 
       if (result.success) {

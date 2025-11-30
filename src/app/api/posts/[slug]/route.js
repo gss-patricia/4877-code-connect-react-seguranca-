@@ -8,7 +8,6 @@ export async function GET(_request, { params }) {
   let slug = null;
 
   try {
-    // ✅ PROTEÇÃO: Validar autenticação antes de processar
     const supabase = await createClient();
     const {
       data: { user },
