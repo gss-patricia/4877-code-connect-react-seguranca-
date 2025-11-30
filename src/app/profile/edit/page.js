@@ -41,16 +41,29 @@ export default function EditProfilePage() {
 
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
-          <label htmlFor="bio">Bio</label>
+          <label htmlFor="bio">
+            Bio <small>(use Markdown para formatação)</small>
+          </label>
           <textarea
             id="bio"
             name="bio"
             value={bio}
             onChange={(e) => setBio(e.target.value)}
-            placeholder="Escreva sua bio..."
+            placeholder="Escreva sua bio em Markdown...
+
+Exemplos:
+**negrito**
+*itálico*
+[link](https://exemplo.com)
+- lista
+"
             rows={8}
             className={styles.textarea}
+            maxLength={500}
           />
+          <small className={styles.hint}>
+            {bio.length}/500 caracteres • Suporta Markdown
+          </small>
         </div>
 
         {message && <div className={styles.message}>{message}</div>}

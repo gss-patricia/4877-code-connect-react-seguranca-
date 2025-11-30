@@ -23,7 +23,7 @@ export const ModalComment = ({
 
       modalRef.current.closeModal();
 
-      // ✅ Notificar componente pai para atualizar comentários
+      // Notificar componente pai para atualizar comentários
       if (onCommentAdded) {
         await onCommentAdded();
       }
@@ -37,11 +37,17 @@ export const ModalComment = ({
       <Modal ref={modalRef}>
         <form action={handleSubmit}>
           <Subheading>Deixe seu comentário sobre o post:</Subheading>
+          {/* 
+            Placeholder com exemplos de sintaxe Markdown
+            - Ensina o usuário a usar **negrito**, *itálico*, [link](url)
+            - Evita que ele tente usar HTML direto (<strong>, <em>, etc.)
+            - Markdown é mais simples e seguro que HTML
+          */}
           <Textarea
             required
             rows={8}
             name="text"
-            placeholder="Digite aqui..."
+            placeholder="Use Markdown: **negrito** *itálico* [link](url)"
           />
           <div className={styles.footer}>
             <SubmitButton>Comentar</SubmitButton>

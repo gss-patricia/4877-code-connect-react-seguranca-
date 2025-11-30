@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import { useRouter } from "next/navigation";
 import { Modal } from "../Modal";
 
 import styles from "./replymodal.module.css";
@@ -12,7 +11,6 @@ import { postReply } from "../../actions";
 
 export const ReplyModal = ({ comment, post, onReplyAdded }) => {
   const modalRef = useRef(null);
-  const router = useRouter();
 
   const openModal = () => {
     modalRef.current.openModal();
@@ -22,7 +20,7 @@ export const ReplyModal = ({ comment, post, onReplyAdded }) => {
     await postReply(comment, formData);
     modalRef.current.closeModal();
 
-    // ✅ Notificar componente pai para atualizar respostas
+    // Notificar componente pai para atualizar respostas
     if (onReplyAdded) {
       onReplyAdded(comment.id);
     }
@@ -36,11 +34,16 @@ export const ReplyModal = ({ comment, post, onReplyAdded }) => {
             <Comment comment={comment} />
           </div>
           <div className={styles.divider}></div>
+          {/* 
+            Respostas usam Markdown também (igual aos comentários)
+            - Sintaxe simples e segura
+            - ReactMarkdown renderiza com proteção contra XSS
+          */}
           <Textarea
             required
             rows={8}
             name="text"
-            placeholder="Digite aqui..."
+            placeholder="Use Markdown: **negrito** *itálico* [link](url)"
           />
           <div className={styles.footer}>
             <SubmitButton>Responder</SubmitButton>
