@@ -64,7 +64,6 @@ export default async function ProfilePage() {
               </p>
             </div>
 
-            {/* ⚠️ Bio vulnerável - será exibida com dangerouslySetInnerHTML */}
             <UserBio bio={dbUser.bio} />
           </div>
 

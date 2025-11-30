@@ -3,7 +3,6 @@ import styles from "./comment.module.css";
 import { DEFAULT_AVATAR_URL } from "../../constants";
 
 export const Comment = ({ comment }) => {
-  // ✅ SEMPRE usar avatar padrão (não confiar em dados do banco)
   const avatarUrl = DEFAULT_AVATAR_URL;
 
   return (
