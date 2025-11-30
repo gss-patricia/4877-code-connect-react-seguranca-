@@ -40,7 +40,6 @@ export const ForgotPassword = () => {
     setDebugUrl("");
 
     try {
-      // ⚠️ VERSÃO INSEGURA: Token em texto plano, sem expiração
       const result = await requestPasswordReset(email);
 
       if (result.success) {

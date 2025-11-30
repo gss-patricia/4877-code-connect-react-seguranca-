@@ -3,6 +3,10 @@ import dotenv from "dotenv";
 
 dotenv.config({ path: ".env.local" });
 
+// ✅ Avatar padrão (mesma constante usada no código)
+const DEFAULT_AVATAR_URL =
+  "https://raw.githubusercontent.com/gss-patricia/code-connect-assets/main/authors/anabeatriz_dev.png";
+
 // Configuração do Supabase
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -26,24 +30,21 @@ async function main() {
     {
       name: "Admin User",
       username: "admin",
-      avatar:
-        "https://raw.githubusercontent.com/gss-patricia/code-connect-assets/main/authors/anabeatriz_dev.png",
+      avatar: DEFAULT_AVATAR_URL, // ✅ Avatar padrão
       role: "admin",
       bio: "Administrador do sistema",
     },
     {
       name: "Moderador",
       username: "moderador",
-      avatar:
-        "https://raw.githubusercontent.com/gss-patricia/code-connect-assets/main/authors/anabeatriz_dev.png",
+      avatar: DEFAULT_AVATAR_URL, // ✅ Avatar padrão
       role: "moderator",
       bio: "Moderador da comunidade",
     },
     {
       name: "Ana Beatriz",
       username: "anabeatriz_dev",
-      avatar:
-        "https://raw.githubusercontent.com/gss-patricia/code-connect-assets/main/authors/anabeatriz_dev.png",
+      avatar: DEFAULT_AVATAR_URL, // ✅ Avatar padrão
       role: "user",
       bio: null,
     },
@@ -63,9 +64,18 @@ async function main() {
         ana = existingUser;
       }
     } else {
+      // ✅ Garantir que dados estão limpos antes de inserir
+      const cleanUser = {
+        ...user,
+        name: user.name.trim(),
+        username: user.username.trim(),
+        avatar: DEFAULT_AVATAR_URL, // ✅ SEMPRE avatar padrão
+        bio: user.bio ? user.bio.trim() : null,
+      };
+
       const { data: newUser, error: userError } = await supabase
         .from("User")
-        .insert([user])
+        .insert([cleanUser])
         .select()
         .single();
 

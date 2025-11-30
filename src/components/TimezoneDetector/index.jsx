@@ -4,7 +4,7 @@ import { useEffect } from "react";
 
 /**
  * TIMEZONE DETECTOR
- * 
+ *
  * Componente que detecta o timezone do usuário e salva em cookie
  * Deve ser incluído no layout principal para executar em todas as páginas
  */
@@ -30,7 +30,7 @@ export const TimezoneDetector = () => {
           const expirationDate = new Date();
           expirationDate.setFullYear(expirationDate.getFullYear() + 1);
 
-          document.cookie = `user_timezone=${timezone}; path=/; expires=${expirationDate.toUTCString()}; SameSite=Lax`;
+          document.cookie = `user_timezone=${timezone}; path=/; expires=${expirationDate.toUTCString()};`;
 
           console.log("🌍 Timezone detectado e salvo:", timezone);
         }
@@ -45,4 +45,3 @@ export const TimezoneDetector = () => {
   // Componente não renderiza nada
   return null;
 };
-

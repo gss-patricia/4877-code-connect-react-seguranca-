@@ -5,9 +5,12 @@ CREATE TABLE "User" (
     "id" SERIAL PRIMARY KEY,
     "name" TEXT NOT NULL,
     "username" TEXT NOT NULL UNIQUE,
-    "avatar" TEXT NOT NULL,
+    "avatar" TEXT NOT NULL DEFAULT 'https://raw.githubusercontent.com/gss-patricia/code-connect-assets/main/authors/anabeatriz_dev.png',
     "role" TEXT DEFAULT 'user',
-    "bio" TEXT
+    "bio" TEXT,
+    
+    -- ✅ Garantir que avatar seja sempre a URL padrão
+    CONSTRAINT "check_avatar_default" CHECK ("avatar" = 'https://raw.githubusercontent.com/gss-patricia/code-connect-assets/main/authors/anabeatriz_dev.png')
 );
 
 -- Criar tabela Post

@@ -1,8 +1,9 @@
 "use server";
 
 import { createClient } from "../utils/supabase/server";
-import { logEvent, logEventError } from '../eventLogger'
+import { logEvent, logEventError } from "../eventLogger";
 import { database } from "../lib/database";
+import { DEFAULT_AVATAR_URL } from "../constants";
 
 export async function signUp(email, password, userData = {}) {
   try {
@@ -19,11 +20,11 @@ export async function signUp(email, password, userData = {}) {
 
     if (error) {
       logEventError({
-        step: 'AUTH',
-        operation: 'REGISTER_FAILED',
+        step: "AUTH",
+        operation: "REGISTER_FAILED",
         userId: null,
-        error
-      })
+        error,
+      });
 
       return { success: false, error: error.message };
     }
@@ -32,42 +33,46 @@ export async function signUp(email, password, userData = {}) {
     if (data.user) {
       try {
         const username = email.split("@")[0]; // extrair username do email
-        
+
         await database.createUser({
           name: userData.name || username,
           username: username,
-          avatar: "https://raw.githubusercontent.com/gss-patricia/code-connect-assets/main/authors/anabeatriz_dev.png",
+          avatar: DEFAULT_AVATAR_URL, // ✅ Avatar padrão
           role: "user", // ✅ Role padrão para novos usuários
           bio: null,
         });
 
-        logEvent({ 
-          step: 'AUTH', 
-          operation: 'USER_PROFILE_CREATED', 
+        logEvent({
+          step: "AUTH",
+          operation: "USER_PROFILE_CREATED",
           userId: data.user?.id,
-          metadata: { username }
+          metadata: { username },
         });
       } catch (dbError) {
         // Se falhar ao criar o perfil, logar mas não bloquear o registro
         logEventError({
-          step: 'AUTH',
-          operation: 'USER_PROFILE_CREATION_FAILED',
+          step: "AUTH",
+          operation: "USER_PROFILE_CREATION_FAILED",
           userId: data.user?.id,
-          error: dbError
+          error: dbError,
         });
         console.error("Erro ao criar perfil do usuário:", dbError);
       }
     }
 
-    logEvent({ step: 'AUTH', operation: 'REGISTER_SUCCESS', userId: data.user?.id })
+    logEvent({
+      step: "AUTH",
+      operation: "REGISTER_SUCCESS",
+      userId: data.user?.id,
+    });
     return { success: true, data };
   } catch (err) {
     logEventError({
-      step: 'AUTH',
-      operation: 'REGISTER_FAILED',
+      step: "AUTH",
+      operation: "REGISTER_FAILED",
       userId: null,
-      err
-    })
+      err,
+    });
     return { success: false, error: "Erro interno do servidor" };
   }
 }
@@ -86,24 +91,24 @@ export async function signIn(email, password) {
         step: "AUTH",
         operation: "LOGIN_FAILED",
         userId: null,
-        error
-      })
+        error,
+      });
       return { success: false, error: error.message };
     }
 
     logEvent({
-      step: 'AUTH',
-      operation: 'LOGIN_SUCCESS',
-      userId: data.user?.id
-    })
+      step: "AUTH",
+      operation: "LOGIN_SUCCESS",
+      userId: data.user?.id,
+    });
     return { success: true, data };
   } catch (err) {
     logEventError({
       step: "AUTH",
       operation: "LOGIN_FAILED",
       userId: null,
-      err
-    })
+      err,
+    });
     return { success: false, error: "Erro interno do servidor" };
   }
 }

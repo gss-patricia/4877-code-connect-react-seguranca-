@@ -69,7 +69,6 @@ export default function ResetPasswordPage() {
     setSuccessMessage("");
 
     try {
-      // ⚠️ VULNERÁVEL: Token na URL pode ser interceptado
       const result = await resetPassword(token, password);
 
       if (result.success) {

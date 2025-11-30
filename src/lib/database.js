@@ -1,5 +1,6 @@
 import db from "../../supabase/db";
 import logger from "../logger";
+import { DEFAULT_AVATAR_URL } from "../constants";
 
 // Data layer para centralizar todas as consultas do Supabase
 export class DatabaseService {
@@ -300,17 +301,20 @@ export class DatabaseService {
         .maybeSingle(); // ✅ maybeSingle() não dá erro se não encontrar
 
       if (existingUser) {
-        return existingUser;
+        // ✅ SEMPRE retornar com avatar padrão (não confiar no banco)
+        return {
+          ...existingUser,
+          avatar: DEFAULT_AVATAR_URL,
+        };
       }
 
-      // Se não existe, criar
+      // Se não existe, criar com avatar padrão
       const { data: newUser, error: createError } = await db
         .from("User")
         .insert({
-          username,
-          name: username,
-          avatar:
-            "https://raw.githubusercontent.com/gss-patricia/code-connect-assets/main/authors/anabeatriz_dev.png",
+          username: username.trim(),
+          name: username.trim(),
+          avatar: DEFAULT_AVATAR_URL, // ✅ Sempre avatar padrão
         })
         .select()
         .single();
