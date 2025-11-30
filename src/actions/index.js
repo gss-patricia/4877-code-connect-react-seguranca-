@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { database } from "../lib/database";
 import { createClient } from "../utils/supabase/server";
+import { sanitizeHTML } from "../lib/sanitizer";
 
 export async function incrementThumbsUp(post) {
   try {
@@ -41,7 +42,11 @@ export async function postComment(post, formData) {
     const username = user.email.split("@")[0];
     const author = await database.getOrCreateUser(username);
 
-    await database.createComment(formData.get("text"), author.id, post.id);
+    // ✅ Sanitizar comentário antes de salvar (remove TODO HTML)
+    const rawText = formData.get("text");
+    const cleanText = sanitizeHTML(rawText, "text"); // Remove TODO HTML, só texto puro
+
+    await database.createComment(cleanText, author.id, post.id);
     revalidatePath("/");
     revalidatePath(`/${post.slug}`);
   } catch (err) {
@@ -65,9 +70,13 @@ export async function postReply(parent, formData) {
     const username = user.email.split("@")[0];
     const author = await database.getOrCreateUser(username);
 
+    // ✅ Sanitizar resposta antes de salvar (remove TODO HTML)
+    const rawText = formData.get("text");
+    const cleanText = sanitizeHTML(rawText, "text"); // Remove TODO HTML, só texto puro
+
     // Criar o comentário usando o postId do parent
     await database.createComment(
-      formData.get("text"),
+      cleanText, // ← ✅ Texto sanitizado (só texto puro)
       author.id,
       parent.postId, // Usar postId do comment
       parent.parentId ?? parent.id // Parent ID (se for resposta à resposta)
