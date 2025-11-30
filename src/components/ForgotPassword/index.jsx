@@ -45,12 +45,8 @@ export const ForgotPassword = () => {
 
       if (result.success) {
         setSuccessMessage(result.message);
-        if (result.debugToken) {
-          setDebugToken(result.debugToken);
-        }
-        if (result.debugUrl) {
-          setDebugUrl(result.debugUrl);
-        }
+        console.log("DEBUG TOKEN");
+        console.log("Reset URL:", result.debugUrl);
       } else {
         setErrorMessage(result.error);
       }
@@ -97,29 +93,6 @@ export const ForgotPassword = () => {
           {errorMessage && <ErrorMessage message={errorMessage} />}
           {successMessage && (
             <div className={styles.successMessage}>{successMessage}</div>
-          )}
-
-          {debugToken && (
-            <div className={styles.debugBox}>
-              <strong>🔓 Token (para demonstração):</strong>
-              <code>{debugToken}</code>
-              {debugUrl && (
-                <>
-                  <strong style={{ marginTop: "1rem", display: "block" }}>
-                    🔗 URL de Reset:
-                  </strong>
-                  <code style={{ fontSize: "0.75rem", wordBreak: "break-all" }}>
-                    {debugUrl}
-                  </code>
-                </>
-              )}
-              <p>
-                <small>
-                  ⚠️ Vulnerabilidades: Token em texto plano, sem expiração,
-                  reutilizável, vaza na URL!
-                </small>
-              </p>
-            </div>
           )}
 
           <div className={styles.backToLogin}>

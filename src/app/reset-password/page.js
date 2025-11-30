@@ -96,35 +96,6 @@ export default function ResetPasswordPage() {
         <div className={styles.resetContent}>
           <h1 className={styles.heading}>Redefinir Senha</h1>
 
-          {token && (
-            <div className={styles.tokenDebug}>
-              <strong>🔓 Token na URL (visível):</strong>
-              <code>{token.substring(0, 32)}...</code>
-              {decodedEmail && (
-                <>
-                  <strong style={{ marginTop: "1rem", display: "block" }}>
-                    👤 Email decodificado do token:
-                  </strong>
-                  <code style={{ background: "#ff4444", color: "white" }}>
-                    {decodedEmail}
-                  </code>
-                  <p style={{ marginTop: "0.5rem" }}>
-                    <small>
-                      ⚠️ Qualquer pessoa pode decodificar base64url e ver o
-                      email!
-                    </small>
-                  </p>
-                </>
-              )}
-              <p>
-                <small>
-                  ⚠️ Token vaza em logs, histórico do navegador, analytics,
-                  Referer header!
-                </small>
-              </p>
-            </div>
-          )}
-
           {!token ? (
             <ErrorMessage message="Token inválido ou não fornecido" />
           ) : (
@@ -170,20 +141,6 @@ export default function ResetPasswordPage() {
               </p>
             </div>
           )}
-
-          <div className={styles.vulnerabilityInfo}>
-            <h3>🔍 Vulnerabilidades desta implementação:</h3>
-            <ul>
-              <li>✗ Token visível na URL (vaza em logs/Referer)</li>
-              <li>✗ Token contém email em base64url (fácil decodificar)</li>
-              <li>✗ Sem verificação de expiração</li>
-              <li>✗ Token pode ser reutilizado infinitamente</li>
-              <li>✗ Sem rate limiting</li>
-              <li>
-                ✗ Qualquer pessoa com o token pode trocar a senha DE VERDADE
-              </li>
-            </ul>
-          </div>
         </div>
       </div>
     </div>

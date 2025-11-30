@@ -9,11 +9,12 @@ import { TimezoneDetector } from "../TimezoneDetector";
 export function LayoutProvider({ children }) {
   const pathname = usePathname();
 
-  // Se for página de login, register ou forgot-password, renderizar sem layout
+  // Se for página de login, register, forgot-password ou reset-password, renderizar sem layout
   if (
     pathname === "/login" ||
     pathname === "/register" ||
-    pathname === "/forgot-password"
+    pathname === "/forgot-password" ||
+    pathname === "/reset-password"
   ) {
     return (
       <>
