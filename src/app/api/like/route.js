@@ -4,6 +4,7 @@ import { database } from "../../../lib/database";
 
 export async function POST(request) {
   try {
+
     const supabase = await createClient();
     const {
       data: { user },
@@ -54,7 +55,6 @@ export async function POST(request) {
   }
 }
 
-// TODO: Remover CORS permissivo para testes
 export async function OPTIONS(request) {
   // Pegar origem do request
   const origin = request.headers.get("origin") || "null";
