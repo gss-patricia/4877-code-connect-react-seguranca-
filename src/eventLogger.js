@@ -45,10 +45,20 @@ export function logEventError({
   error,
   metadata = {},
 }) {
+  // Serializar erro para evitar {} vazio no JSON.stringify
+  const serializedError =
+    error instanceof Error
+      ? {
+          message: error.message,
+          name: error.name,
+          stack: error.stack,
+        }
+      : error;
+
   const context = formatEventContext(userId, {
     step,
     operation,
-    error,
+    error: serializedError,
     ...metadata,
   });
 
