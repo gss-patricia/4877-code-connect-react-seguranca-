@@ -1,4 +1,5 @@
 import styles from "./userbio.module.css";
+import ReactMardown from "react-markdown"
 
 export function UserBio({ bio }) {
   if (!bio) {
@@ -10,8 +11,19 @@ export function UserBio({ bio }) {
       <h3 className={styles.bioTitle}>Bio</h3>
       <div
         className={styles.bioContent}
-        dangerouslySetInnerHTML={{ __html: bio }}
-      />
+      >
+        <ReactMardown allowedElements={[
+          "p",
+          "strong",
+          "ul",
+          "ol",
+          "il",
+          "br",
+          "em"
+        ]}>
+          {bio}
+        </ReactMardown>
+      </div>
     </div>
   );
 }

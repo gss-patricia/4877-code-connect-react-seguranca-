@@ -41,13 +41,13 @@ export default function EditProfilePage() {
 
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.formGroup}>
-          <label htmlFor="bio">Bio</label>
+          <label htmlFor="bio">Bio (use Mardown para formatação)</label>
           <textarea
             id="bio"
             name="bio"
             value={bio}
             onChange={(e) => setBio(e.target.value)}
-            placeholder="Escreva sua bio..."
+            placeholder="Escreva sua bio em Mardown. Exemplos: **negrito**"
             rows={8}
             className={styles.textarea}
           />
