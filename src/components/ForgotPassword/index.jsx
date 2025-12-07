@@ -1,29 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import styles from "./forgotpassword.module.css";
 import { Input } from "../Input";
 import { Button } from "../Button";
 import { Link } from "../Link";
 import { Spinner } from "../Spinner";
 import { ErrorMessage } from "../ErrorMessage";
-import { requestPasswordReset } from "../../actions/passwordReset";
+import { createClient } from "../../utils/supabase/client"
 
-/**
- * ⚠️ COMPONENTE COM VERSÃO INSEGURA DE RESET PASSWORD
- *
- * Durante o curso (Módulo 2 - Vídeo 2.4), vamos corrigir as vulnerabilidades!
- */
 export const ForgotPassword = () => {
-  const router = useRouter();
+  const supabase = createClient()
 
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [debugToken, setDebugToken] = useState("");
-  const [debugUrl, setDebugUrl] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,18 +28,16 @@ export const ForgotPassword = () => {
     setIsLoading(true);
     setErrorMessage("");
     setSuccessMessage("");
-    setDebugToken("");
-    setDebugUrl("");
 
     try {
-      const result = await requestPasswordReset(email);
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`
+      })
 
-      if (result.success) {
-        setSuccessMessage(result.message);
-        console.log("DEBUG TOKEN");
-        console.log("Reset URL:", result.debugUrl);
+      if (!error) {
+        setSuccessMessage("Email enviado! Verifique sua caixa de entrada ou spam.");
       } else {
-        setErrorMessage(result.error);
+        setErrorMessage(error.message);
       }
     } catch (error) {
       console.error("Erro ao solicitar reset:", error);
