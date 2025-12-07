@@ -8,43 +8,17 @@ import { Button } from "../../components/Button";
 import { Spinner } from "../../components/Spinner";
 import { ErrorMessage } from "../../components/ErrorMessage";
 import { resetPassword } from "../../actions/passwordReset";
+import { createClient } from '../../utils/supabase/client'
 
-/**
- * ⚠️ PÁGINA VULNERÁVEL DE RESET PASSWORD
- *
- * Demonstra vulnerabilidades que serão corrigidas no curso:
- * - Token visível na URL (vaza em logs/Referer)
- * - Token pode ser reutilizado
- * - Sem verificação de expiração
- * - Sem validação adequada
- */
 export default function ResetPasswordPage() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
+  const supabase = createClient()
+  const router = useRouter()
 
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-  const [decodedEmail, setDecodedEmail] = useState("");
-
-  useEffect(() => {
-    if (!token) {
-      setErrorMessage("Token não encontrado na URL");
-    } else {
-      // Tentar decodificar o token para mostrar a vulnerabilidade
-      try {
-        const tokenData = JSON.parse(
-          atob(token.replace(/-/g, "+").replace(/_/g, "/"))
-        );
-        setDecodedEmail(tokenData.email);
-      } catch (e) {
-        // Se falhar, não é crítico
-      }
-    }
-  }, [token]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,17 +43,16 @@ export default function ResetPasswordPage() {
     setSuccessMessage("");
 
     try {
-      const result = await resetPassword(token, password);
+      const { error } = await supabase.auth.updateUser({ password })
 
-      if (result.success) {
-        setSuccessMessage(result.message);
-
-        // Redirecionar após 3 segundos
+      if (error) {
+        setErrorMessage("Token inválido, expirado ou já usado.")
+      } else {
+        setSuccessMessage("Senha alterada com sucesso!")
+        // Redirecionar após 2 segundos
         setTimeout(() => {
           router.push("/login");
-        }, 3000);
-      } else {
-        setErrorMessage(result.error);
+        }, 2000);
       }
     } catch (error) {
       console.error("Erro ao resetar senha:", error);
@@ -95,8 +68,8 @@ export default function ResetPasswordPage() {
         <div className={styles.resetContent}>
           <h1 className={styles.heading}>Redefinir Senha</h1>
 
-          {!token ? (
-            <ErrorMessage message="Token inválido ou não fornecido" />
+          {errorMessage.length > 0 ? (
+            <ErrorMessage message={errorMessage} />
           ) : (
             <form className={styles.form} onSubmit={handleSubmit}>
               <div className={styles.formGroup}>
