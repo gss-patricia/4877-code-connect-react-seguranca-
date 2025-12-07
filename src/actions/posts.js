@@ -31,8 +31,26 @@ export async function deletePost(postId) {
       return { success: false, error: "Usuário não encontrado" }
     }
 
+    const post = await database.getPostById(postId)
+
+    if (!post) {
+      logEventError({
+        step: "AUTHORIZATION",
+        operation: "POST_NOT_FOUND",
+        error: "Post not found",
+        metadata: {
+          postId
+        }
+      })
+
+      return { success: false, error: "Post não encontrado" }
+    }
+
+    const isAdmin = dbUser.role === "admin";
+    const isOwner = post.authorId === dbUser.id
+
     //RBAC: apenas admin pode deletar
-    if (dbUser.role !== "admin") {
+    if (!isAdmin && !isOwner) {
       logEventError({
         step: "AUTHORIZATION",
         operation: "DELETE_POST_DENIED",
@@ -41,11 +59,12 @@ export async function deletePost(postId) {
           postId,
           username,
           userRole: dbUser.role,
-          requiredRole: "admin"
+          isAdmin: false,
+          isOwner: false
         }
       })
 
-      return { success: false, error: "Apenas administradores podem deletar posts" }
+      return { success: false, error: "Você não tem permissão para deletar este post" }
     }
 
     const { error } = await db.from("Post").delete().eq("id", postId);
