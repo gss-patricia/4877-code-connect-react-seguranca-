@@ -6,6 +6,11 @@ import { UserBio } from "../../components/UserBio";
 import Link from "next/link";
 import styles from "./page.module.css";
 
+// Forçar renderização dinâmica (usa cookies para auth)
+// Isso previne erro de "Dynamic server usage" no build
+export const dynamic = 'force-dynamic';
+
+
 export default async function ProfilePage() {
   try {
     const supabase = await createClient();
