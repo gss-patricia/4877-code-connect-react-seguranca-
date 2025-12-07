@@ -157,8 +157,6 @@ export class DatabaseService {
 
   async deletePost(postId) {
     try {
-      // ⚠️ VULNERÁVEL: Nenhuma verificação de autorização
-      // Durante o curso, vamos adicionar RBAC/ABAC aqui
       const { error } = await db.from("Post").delete().eq("id", postId);
 
       if (error) {
