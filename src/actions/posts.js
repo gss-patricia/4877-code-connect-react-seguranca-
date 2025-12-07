@@ -5,6 +5,7 @@ import { database } from "../lib/database";
 import { revalidatePath } from "next/cache";
 import db from "../../supabase/db";
 import { logEventError } from "@/eventLogger";
+import { canDeletePost } from "@/lib/authorization";
 
 export async function deletePost(postId) {
   try {
@@ -46,11 +47,9 @@ export async function deletePost(postId) {
       return { success: false, error: "Post não encontrado" }
     }
 
-    const isAdmin = dbUser.role === "admin";
-    const isOwner = post.authorId === dbUser.id
+    const authResult = canDeletePost(dbUser, post)
 
-    //RBAC: apenas admin pode deletar
-    if (!isAdmin && !isOwner) {
+    if (!authResult.allowed) {
       logEventError({
         step: "AUTHORIZATION",
         operation: "DELETE_POST_DENIED",
@@ -59,8 +58,8 @@ export async function deletePost(postId) {
           postId,
           username,
           userRole: dbUser.role,
-          isAdmin: false,
-          isOwner: false
+          postReportCount: post.reportCount,
+          authResult
         }
       })
 
