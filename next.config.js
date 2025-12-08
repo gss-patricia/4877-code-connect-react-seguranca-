@@ -64,6 +64,11 @@ const nextConfig = {
               },
             ]
             : []),
+          // CORS (desabilita acesso externo)
+          {
+            key: "Access-Control-Allow-Origin",
+            value: "null",
+          },
         ]
       }
     ]
