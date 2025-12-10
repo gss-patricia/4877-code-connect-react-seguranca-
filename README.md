@@ -1,124 +1,200 @@
-![Thumbnail escrito React: implementando técnicas modernas de Debugging e Release com Next](./thumbnail.png)
+![Thumbnail escrito React: utilizando técnicas avançadas de segurança](./thumbnail.png)
 
 ![](https://img.shields.io/github/license/alura-cursos/android-com-kotlin-personalizando-ui)
 
-# React: implementando técnicas modernas de Debugging e Release com Next
+# React: utilizando técnicas avançadas de segurança
 
-Code-connect aplicação focada em rede social para pessoas desenvolvedoras, com área logada, permite registrar uma nova conta, listar posts, comentar e dar likes em cada post.
+O Code Connect é uma aplicação realista de rede social para pessoas desenvolvedoras, com área logada, posts, comentários, likes, perfis e operações sensíveis, servindo como laboratório para aprendermos segurança na prática utilizando React + Next.js.
 
-## 🔨 Funcionalidades do projeto
-
-O projeto implementa uma rede social completa com:
-
-- **Home Page**: Lista de posts
-- **Página de Post**: Detalhes individuais do post
-- **Busca em Tempo Real**: Sistema de busca client-side com hook personalizado
-- **API Routes**: Endpoints para detalhe do post e comentarios
-- **Camada de Dados**: Abstração para interação com Supabase
-
-## ✔️ Técnicas Modernas de Debugging e Release Implementadas
-
-### 🔧 **Configuração do Ambiente e Banco de Dados**
-
-- **Variáveis de ambiente** - Configuração de credenciais Supabase e chaves de API
-- **Scripts SQL** - Estruturação do banco de dados com autenticação e relacionamentos
-- **Supabase Auth** - Integração de autenticação OAuth (Google, GitHub)
-
-### 🔐 **Autenticação e Rotas Protegidas**
-
-- **Server-side authentication** - Middleware para validar tokens em cada request
-- **Client-side protection** - Hooks customizados (`useAuth`, `useProtectedRoute`)
-- **Área logada completa** - Dashboard com posts, comentários e interactions
-- **Logout seguro** - Limpeza de cookies e redirecionamento automático
-
-### 🐛 **Ferramentas de Depuração Avançadas**
-
-- **DevTools do Browser** - Inspeção de elementos, Network e Console
-- **React Developer Tools** - Profiling de componentes e análise de renders
-- **VS Code Debugger** - Debug de Server Components e API Routes com breakpoints
-- **Server-side Debugging** - Conexão direta do DevTools com o servidor Next.js
-
-```bash
-# Ativar debug do servidor
-yarn run dev:debug  # NODE_OPTIONS='--inspect'
-```
-
-### 📊 **Logs Estruturados com Winston**
-
-- **Winston Logger** - Biblioteca robusta para logs em níveis (info, error, warn)
-- **Transporte múltiplo** - Logs em arquivo e console simultâneamente
-- **Contexto de eventos** - Captura de userId, timestamp, timezone e ambiente
-- **Separação de logs** - `combined.log` (todos) e `error.log` (apenas erros)
-
-```javascript
-import { logEvent, logEventError } from "../eventLogger";
-
-logEvent({ step: "AUTH", operation: "LOGIN_SUCCESS", userId });
-logEventError({ step: "API", operation: "GET_POST_ERROR", userId, error });
-```
-
-### 📍 **Logs de Aplicação vs Logs de Negócio**
-
-- **Logs de aplicação** - Erros técnicos, stack traces, debugging (servidor)
-- **Logs de negócio** - Eventos do usuário, conversões, comportamentos (cliente + servidor)
-- **Cliente vs Servidor** - Diferenças técnicas (Winston no servidor, console no cliente)
-- **Conformidade** - Respeito a LGPD/GDPR ao logar dados de usuários
-
-### 🚀 **Feature Flags com GrowthBook**
-
-- **GrowthBook SDK** - Integração de feature flags dinâmicas sem redeploy
-- **Client Provider** - `GrowthBookProvider` para ativar hooks em toda a aplicação
-- **useFeatureValue hook** - Consumir feature flags em componentes React
-
-```javascript
-const showUpdateTime = useFeatureValue("show-update-time", false);
-```
-
-### 🎯 **Estratégias de Feature Flags**
-
-- **Por constantes** - Valores hardcoded para testes locais
-- **Por variáveis de ambiente** - Controle via `NEXT_PUBLIC_` ou `APP_ENV`
-- **Por API (GrowthBook)** - Dashboard para ativar/desativar sem código
-- **Rollouts graduais** - Ativar para 10% → 50% → 100% dos usuários
-- **Rollbacks instantâneos** - Desativar feature sem redeploy em caso de bug
-
-### 📦 **Deploy vs Release**
-
-- **Deploy** - Publicar código novo na infraestrutura (Vercel)
-- **Release** - Ativar funcionalidade para usuários (via feature flag)
-- **Benefícios** - Desacoplamento entre deploy e disponibilidade da feature
-- **Segurança** - Testar em produção antes de liberar para todos
-
-### ☁️ **Deploy na Vercel**
-
-- **CI/CD automático** - Deploy automático a cada push
-- **Ambiente de preview** - URLs de preview para cada PR
-- **Production readiness** - Variáveis de ambiente seguras e performance monitorada
-- **Observabilidade** - Logs e analytics em tempo real no dashboard Vercel
-
-## 🛠️ Tecnologias Utilizadas
-
-- **Next.js 15** - Framework React com App Router
-- **React 18** - Hooks, Server/Client Components
-- **Supabase** - Backend as a Service
-- **CSS Modules** - Estilização modular
-- **Node.js 20+** - Runtime JavaScript
-
-### **Pré-requisitos**
-
-- Node.js 20+
-- NPM ou Yarn
-- Conta Supabase (configurada)
-
-### **Instalação**
-
-```bash
-# Inicie o servidor de desenvolvimento
-yarn run dev
-```
-
-## 📚 Mais informações
-
-Este projeto foi desenvolvido para demonstrar as diferentes estratégias de renderização do Next.js de forma prática e educativa, mostrando quando e como usar cada uma delas em cenários reais.
+Ao longo do curso, realizamos auditoria com base em OWASP, corrigimos vulnerabilidades reais e implementamos camadas modernas de mitigação e proteção: XSS, CSRF, RBAC/ABAC, monitoração de dependências e segurança via Security Headers.
 
 ---
+
+## 🔨 Funcionalidades da aplicação
+
+A aplicação implementa um fluxo completo de rede social:
+
+- Login, registro e reset de senha
+- Listagem de posts
+- Página de detalhes
+- Comentários
+- Likes
+- Perfil com bio HTML (superfície de ataque para XSS)
+
+---
+
+## 🛡️ O que aprendemos em segurança
+
+### 🔍 Auditoria de Segurança (OWASP)
+
+- Integração mental com OWASP ASVS, Top10 e WSTG
+- Identificação e classificação de superfícies de ataque
+- Fluxo real de auditoria (entender → reproduzir → corrigir → validar)
+
+### ⚔️ Proteção contra XSS (Cross-Site Scripting)
+
+- Demonstração de ataque ao vivo
+- Sanitização via DOMPurify (server-side)
+- Whitelist personalizada
+- Markdown seguro
+- HTML perigoso
+- Defesa em profundidade com CSP
+
+### 🧪 Sanitização, escaping e CSP
+
+- Input validation
+- DOMPurify server-side
+- CSP com trade-offs documentados
+- unsafe-inline analisado tecnicamente
+- Headers adicionais contra XSS
+
+> Segurança é por camadas — sanitização, validação, headers, CSP e design seguro.
+
+### 🔐 Proteção contra CSRF (Cross-Site Request Forgery)
+
+- Demonstração real do ataque
+- Server Actions protegidas nativamente
+- API Routes vulneráveis (correção passo a passo)
+- Token vs SameSite vs Origin
+- Defesa em profundidade
+
+### 🔑 Gestão segura de tokens
+
+- Vulnerabilidade real em Reset Password
+- Vazamento de token pelo console
+- Uso único
+- Expiração
+- Fluxo nativo seguro via Supabase Auth
+- Monitoramento, logs e auditoria
+
+### 🔏 RBAC e ABAC
+
+- Modelo híbrido (admin, moderator, owner)
+- Broken Access Control (#1 OWASP)
+- Função centralizada de autorização
+- Motivos (reasons) e logging
+- Design seguro: esconder botão delete no front, mas validar sempre no backend
+
+### 🔐 CORS, CSP e Security Headers
+
+- Same-Origin Policy
+- Preflight
+- cookies + credentials
+- Clickjacking
+- Downgrade
+- Permissions-Policy
+- Segurança baseada no navegador
+
+---
+
+## ✔️ Técnicas utilizadas durante o curso
+
+- Auditoria OWASP (ASVS, Top10, WSTG)
+- DOMPurify com whitelist
+- Security Headers avançados
+- CSP customizada
+- RBAC + ABAC híbrido
+- Proteção CSRF
+- Token seguro Supabase
+- Monitoramento automático com Dependabot
+- Segurança das dependências
+- Defense in Depth
+- Shift Left Security
+
+---
+
+## 🧩 3 Pilares de Segurança
+
+- P1 — Dependências (npm, CVEs, Supply Chain)
+- P2 — Código (sanitização, CSRF, RBAC/ABAC)
+- P3 — Infraestrutura (headers, CSP, CORS)
+
+---
+
+## 🔧 Preparando o ambiente
+
+### 1. Clone o projeto
+
+```bash
+git clone https://github.com/gss-patricia/4877-code-connect-react-seguranca-.git
+cd 4877-code-connect-react-seguranca-
+```
+
+### 2. Instale as dependências
+
+```bash
+npm install
+# ou
+yarn install
+```
+
+### 3. Configure o Supabase
+
+#### 3.1 Crie um projeto no Supabase
+
+1. Acesse [supabase.com](https://supabase.com)
+2. Clique em **"New Project"**
+3. Preencha os dados do projeto e aguarde a criação
+
+#### 3.2 Obtenha as chaves de API
+
+1. No painel do Supabase, vá em **Settings → API**
+2. Você verá as seguintes informações:
+   - **Project URL**: `https://seu-projeto.supabase.co`
+   - **anon public**: chave pública (API Key)
+   - **service_role**: chave secreta (só use no backend!)
+
+#### 3.3 Configure as variáveis de ambiente
+
+1. Copie o arquivo de exemplo:
+
+```bash
+cp env.example .env.local
+```
+
+2. Edite o arquivo `.env.local` com suas credenciais:
+
+```bash
+NEXT_PUBLIC_SUPABASE_URL=https://seu-projeto.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=sua-chave-anon-aqui
+SUPABASE_SERVICE_ROLE_KEY=sua-chave-service-role-aqui
+```
+
+### 4. Crie as tabelas no banco de dados
+
+1. No painel do Supabase, vá em **SQL Editor**
+2. Clique em **"New Query"**
+3. Copie e cole todo o conteúdo do arquivo `supabase/supabase-schema.sql`
+4. Clique em **"Run"** para executar o script
+
+### 5. Popule o banco com dados iniciais
+
+Execute o script de seed:
+
+```bash
+npm run seed
+# ou
+yarn seed
+```
+
+> ⚠️ **Se ocorrer erro**: Valide se as variáveis de ambiente estão corretas no arquivo `.env.local`
+
+### 6. Inicie a aplicação
+
+```bash
+npm run dev
+# ou
+yarn dev
+```
+
+A aplicação estará disponível em: [http://localhost:3000](http://localhost:3000)
+
+### 7. Registre-se e confirme o email
+
+1. Acesse a aplicação e clique em **"Registrar"**
+2. Preencha o formulário de registro
+3. Verifique sua caixa de entrada do email cadastrado
+4. Clique no link de confirmação enviado pelo Supabase
+5. Faça login na aplicação
+
+> 📧 **Importante**: A confirmação de email é obrigatória. Se não receber o email, verifique a pasta de spam.

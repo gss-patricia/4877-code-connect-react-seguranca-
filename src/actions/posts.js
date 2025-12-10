@@ -20,19 +20,19 @@ export async function deletePost(postId) {
     }
 
     const username = user.email.split("@")[0];
-    const dbUser = await database.getUserByUsername(username)
+    const dbUser = await database.getUserByUsername(username);
 
     if (!dbUser) {
       logEventError({
         step: "AUTHORIZATION",
         operation: "USER_NOT_FOUND",
         error: "User not found",
-        metadata: { username }
-      })
-      return { success: false, error: "Usuário não encontrado" }
+        metadata: { username },
+      });
+      return { success: false, error: "Usuário não encontrado" };
     }
 
-    const post = await database.getPostById(postId)
+    const post = await database.getPostById(postId);
 
     if (!post) {
       logEventError({
@@ -40,14 +40,14 @@ export async function deletePost(postId) {
         operation: "POST_NOT_FOUND",
         error: "Post not found",
         metadata: {
-          postId
-        }
-      })
+          postId,
+        },
+      });
 
-      return { success: false, error: "Post não encontrado" }
+      return { success: false, error: "Post não encontrado" };
     }
 
-    const authResult = canDeletePost(dbUser, post)
+    const authResult = canDeletePost(dbUser, post);
 
     if (!authResult.allowed) {
       logEventError({
@@ -59,11 +59,14 @@ export async function deletePost(postId) {
           username,
           userRole: dbUser.role,
           postReportCount: post.reportCount,
-          authResult
-        }
-      })
+          authResult,
+        },
+      });
 
-      return { success: false, error: "Você não tem permissão para deletar este post" }
+      return {
+        success: false,
+        error: "Você não tem permissão para deletar este post",
+      };
     }
 
     const { error } = await db.from("Post").delete().eq("id", postId);
@@ -75,11 +78,10 @@ export async function deletePost(postId) {
 
     revalidatePath("/");
     revalidatePath("/posts");
-    revalidatePath(`/posts/${postId}`)
+    revalidatePath(`/posts/${postId}`);
     return { success: true };
   } catch (error) {
     console.error("Erro ao deletar post:", error);
     return { success: false, error: "Erro interno do servidor" };
   }
 }
-
