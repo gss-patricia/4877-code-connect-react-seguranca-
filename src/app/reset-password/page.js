@@ -9,15 +9,6 @@ import { Spinner } from "../../components/Spinner";
 import { ErrorMessage } from "../../components/ErrorMessage";
 import { resetPassword } from "../../actions/passwordReset";
 
-/**
- * ⚠️ PÁGINA VULNERÁVEL DE RESET PASSWORD
- *
- * Demonstra vulnerabilidades que serão corrigidas no curso:
- * - Token visível na URL (vaza em logs/Referer)
- * - Token pode ser reutilizado
- * - Sem verificação de expiração
- * - Sem validação adequada
- */
 export default function ResetPasswordPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
